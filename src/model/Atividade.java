@@ -18,20 +18,14 @@ public class Atividade {
     }
 
     public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
 
     public String getLocal() { return local; }
-    public void setLocal(String local) { this.local = local; }
 
     public String getHorario() { return horario; }
-    public void setHorario(String horario) { this.horario = horario; }
 
     public int getDuracaoMinutos() { return duracaoMinutos; }
-    public void setDuracaoMinutos(int duracaoMinutos) { this.duracaoMinutos = duracaoMinutos; }
 
     public Palestrante getPalestrante() { return palestrante; }
-    public void setPalestrante(Palestrante palestrante) { this.palestrante = palestrante; }
 
     public Evento getEvento() { return evento; }
-    public void setEvento(Evento evento) { this.evento = evento; }
 }

@@ -46,10 +46,8 @@ public class Evento {
     }
 
     public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
 
     public int getCapacidadeMaxima() { return capacidadeMaxima; }
-    public void setCapacidadeMaxima(int capacidadeMaxima) { this.capacidadeMaxima = capacidadeMaxima; }
 
     public Participante[] getParticipantes() { return participantes; }
     public Atividade[] getAtividades() { return atividades; }
