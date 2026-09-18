@@ -35,15 +35,14 @@ public class Evento {
         return true;
     }
 
-    // Metodo recursivo
     public Participante buscarParticipanteRecursivo(String cpf, int indice) {
         if (indice >= this.participantes.length || this.participantes[indice] == null) {
-            return null; // Caso base: fim do array ou posição vazia
+            return null;
         }
         if (this.participantes[indice].getCpf().equals(cpf)) {
-            return this.participantes[indice]; // Caso base: encontrou
+            return this.participantes[indice];
         }
-        return buscarParticipanteRecursivo(cpf, indice + 1); // Chamada recursiva
+        return buscarParticipanteRecursivo(cpf, indice + 1);
     }
 
     public String getNome() { return nome; }
