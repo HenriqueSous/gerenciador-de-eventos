@@ -70,7 +70,6 @@ public class GerenciadorService {
         return false;
     }
 
-
     private boolean verificarParticipanteInscrito(Participante participante, Evento evento) {
         Participante encontrado = evento.buscarParticipanteRecursivo(participante.getCpf(), 0);
         return encontrado != null;
