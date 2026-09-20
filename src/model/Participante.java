@@ -22,8 +22,4 @@ public class Participante {
     public String getEmail() {
         return email;
     }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
 }
