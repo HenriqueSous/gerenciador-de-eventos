@@ -1,4 +1,14 @@
 ### DOCUMENTAÇÃO DO PROJETO - SISTEMA DE GERENCIAMENTO DE EVENTOS
+Discentes (Grupo E1):
+
+Hamilton Santos Pessoa Junior
+
+Henrique Sousa Oliveira
+
+Iury Leal Brito
+
+Joao Pedro Santana Nunes
+
 #### 1. Descrição do Problema
 O gerenciamento manual de eventos de pequeno e médio porte costuma gerar falhas operacionais significativas, como a sobreposição de horários em uma mesma sala, alocação simultânea incorreta de palestrantes, estouro de lotação máxima de participantes e duplicidade em listas de inscrição. O problema central consiste em desenvolver uma solução computacional orientada a objetos capaz de automatizar e controlar com precisão o fluxo de dados e as restrições operacionais desse domínio.
 
