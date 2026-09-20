@@ -180,9 +180,9 @@ public class Main {
         System.out.print("Informe o e-mail do participante: ");
         String email = scanner.nextLine();
 
-        Participante p = new Participante(nome, cpf, email);
+        Participante participante = new Participante(nome, cpf, email);
 
-        if (service.realizarInscricao(eventoSelecionado, p)) {
+        if (service.realizarInscricao(eventoSelecionado, participante)) {
             System.out.println("Participante cadastrado com sucesso!");
         } else {
             System.out.println("Não foi possível cadastrar (Capacidade máxima atingida ou CPF já cadastrado).");
