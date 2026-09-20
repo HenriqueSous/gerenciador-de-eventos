@@ -22,6 +22,15 @@ public class GerenciadorService {
         return true;
     }
 
+    public boolean realizarInscricao(Evento evento, Participante participante) {
+        if (!verificarParticipanteInscrito(participante, evento)
+                && validarCpf(participante.getCpf()) &&
+                !validarEmail(participante.getEmail())) {
+            return evento.cadastrarParticipante(participante);
+        }
+        return false;
+    }
+
     public boolean adicionarAtividade(Atividade atividade) {
         Evento evento = atividade.getEvento();
 
@@ -38,15 +47,6 @@ public class GerenciadorService {
         }
 
         return evento.adicionarAtividade(atividade);
-    }
-
-    public boolean realizarInscricao(Evento evento, Participante participante) {
-        if (!verificarParticipanteInscrito(participante, evento)
-                && validarCpf(participante.getCpf()) &&
-                !validarEmail(participante.getEmail())) {
-            return evento.cadastrarParticipante(participante);
-        }
-        return false;
     }
 
     private boolean verificarConflitosEntreAtividades(Evento evento, Atividade atividade) {
