@@ -61,22 +61,22 @@ public class Main {
         } else {
             System.out.println("[ Nenhum evento selecionado ]");
         }
-        System.out.println("1. Gerenciar Eventos (Cadastrar / Ver)");
-        System.out.println("2. Selecionar/Alternar Evento Ativo");
-        System.out.println("3. Cadastrar Participante (no evento selecionado)");
-        System.out.println("4. Cadastrar Atividade (no evento selecionado)");
-        System.out.println("5. Buscar Participante por CPF");
-        System.out.println("6. Listar Atividades do Evento Selecionado");
-        System.out.println("0. Sair");
+        System.out.println("[1] Gerenciar Eventos (Cadastrar / Ver)");
+        System.out.println("[2] Selecionar/Alternar Evento Ativo");
+        System.out.println("[3] Cadastrar Participante (no evento selecionado)");
+        System.out.println("[4] Cadastrar Atividade (no evento selecionado)");
+        System.out.println("[5] Buscar Participante por CPF");
+        System.out.println("[6] Listar Atividades do Evento Selecionado");
+        System.out.println("[0] Sair");
     }
 
     private static void menuGerenciarEventos() {
         int opcao = -1;
         while (opcao != 0) {
             System.out.println("\n=== GESTÃO DE EVENTOS ===");
-            System.out.println("1. Cadastrar Novo Evento");
-            System.out.println("2. Listar Eventos Cadastrados");
-            System.out.println("0. Voltar ao Menu Principal");
+            System.out.println("[1] Cadastrar Novo Evento");
+            System.out.println("[2] Listar Eventos Cadastrados");
+            System.out.println("[0] Voltar ao Menu Principal");
             System.out.print("Escolha uma opção: ");
 
             try {
