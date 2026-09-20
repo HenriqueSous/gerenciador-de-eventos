@@ -38,12 +38,12 @@ public class GerenciadorService {
         return false;
     }
 
-    public boolean verificarParticipanteInscrito(Participante participante, Evento evento) {
+    private boolean verificarParticipanteInscrito(Participante participante, Evento evento) {
         Participante encontrado = evento.buscarParticipanteRecursivo(participante.getCpf(), 0);
         return encontrado != null;
     }
 
-    public boolean verificarConflitosEntreAtividades(Evento evento, Atividade atividade) {
+    private boolean verificarConflitosEntreAtividades(Evento evento, Atividade atividade) {
         for (Atividade atv : evento.getAtividades()) {
             if (atv != null) {
                 if (atv.getLocal().equals(atividade.getLocal()) && atv.getHorario().equals(atividade.getHorario())) {
