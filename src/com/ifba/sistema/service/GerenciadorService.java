@@ -1,9 +1,9 @@
-package com.ifba.gerenciador_de_eventos.service;
+package com.ifba.sistema.service;
 
-import com.ifba.gerenciador_de_eventos.model.Atividade;
-import com.ifba.gerenciador_de_eventos.model.Evento;
-import com.ifba.gerenciador_de_eventos.model.Palestrante;
-import com.ifba.gerenciador_de_eventos.model.Participante;
+import com.ifba.sistema.model.Atividade;
+import com.ifba.sistema.model.Evento;
+import com.ifba.sistema.model.Palestrante;
+import com.ifba.sistema.model.Participante;
 
 public class GerenciadorService {
     private Evento[] eventos;
