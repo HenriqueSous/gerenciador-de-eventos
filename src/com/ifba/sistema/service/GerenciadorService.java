@@ -23,9 +23,8 @@ public class GerenciadorService {
         return true;
     }
 
-    public boolean adicionarAtividade(Evento evento, String nome, String local, String horario, int duracaoMinutos, Palestrante palestrante) {
-        Atividade atividade = new Atividade(nome, local, horario, duracaoMinutos, palestrante, evento);
-
+    public boolean adicionarAtividade(Atividade atividade) {
+        Evento evento = atividade.getEvento();
         if (!verificarConflitosEntreAtividades(evento, atividade)) {
             return evento.adicionarAtividade(atividade);
         }

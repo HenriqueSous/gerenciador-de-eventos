@@ -214,8 +214,9 @@ public class Main {
         String especialidade = scanner.nextLine();
 
         Palestrante palestrante = new Palestrante(nomePalestrante, cpfPalestrante, especialidade);
+        Atividade atividade = new Atividade(nome, local, horario, duracao, palestrante, eventoSelecionado);
 
-        if (service.adicionarAtividade(eventoSelecionado, nome, local, horario, duracao, palestrante)) {
+        if (service.adicionarAtividade(atividade)) {
             System.out.println("Atividade cadastrada com sucesso!");
         } else {
             System.out.println("Não foi possível cadastrar a atividade (Limite atingido ou conflito de horário e local).");
