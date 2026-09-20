@@ -1,4 +1,4 @@
-package model;
+package com.ifba.gerenciador_de_eventos.model;
 
 public class Atividade {
     private String nome;

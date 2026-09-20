@@ -1,10 +1,10 @@
-package view;
+package com.ifba.gerenciador_de_eventos.view;
 
-import model.Atividade;
-import model.Evento;
-import model.Palestrante;
-import model.Participante;
-import service.GerenciadorService;
+import com.ifba.gerenciador_de_eventos.model.Atividade;
+import com.ifba.gerenciador_de_eventos.model.Evento;
+import com.ifba.gerenciador_de_eventos.model.Palestrante;
+import com.ifba.gerenciador_de_eventos.model.Participante;
+import com.ifba.gerenciador_de_eventos.service.GerenciadorService;
 
 import java.util.Scanner;
 
