@@ -146,7 +146,7 @@ public class Main {
         for (int i = 0; i < eventos.length; i++) {
             if (eventos[i] != null) {
                 possuiEventos = true;
-                System.out.println((i + 1) + ". " + eventos[i].getNome());
+                System.out.println("[" + (i + 1) + "] " + eventos[i].getNome());
             }
         }
 
