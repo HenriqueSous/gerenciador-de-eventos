@@ -41,7 +41,9 @@ public class GerenciadorService {
     }
 
     public boolean realizarInscricao(Evento evento, Participante participante) {
-        if (!verificarParticipanteInscrito(participante, evento) && validarCpf(participante.getCpf())) {
+        if (!verificarParticipanteInscrito(participante, evento)
+                && validarCpf(participante.getCpf()) &&
+                !validarEmail(participante.getEmail())) {
             return evento.cadastrarParticipante(participante);
         }
         return false;
@@ -77,6 +79,10 @@ public class GerenciadorService {
 
     private boolean validarCpf(String cpf) {
         return cpf.matches("\\d{11}");
+    }
+
+    private boolean validarEmail(String email) {
+        return email.contains("@");
     }
 
     public Evento[] getEventos() {
