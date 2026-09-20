@@ -15,7 +15,7 @@ public class GerenciadorService {
 
     public boolean criarEvento(Evento evento) {
         if (indiceEvento >= eventos.length) {
-            return false; // Limite de eventos atingido
+            return false;
         }
         eventos[indiceEvento] = evento;
         indiceEvento++;
@@ -24,10 +24,20 @@ public class GerenciadorService {
 
     public boolean adicionarAtividade(Atividade atividade) {
         Evento evento = atividade.getEvento();
-        if (!verificarConflitosEntreAtividades(evento, atividade) && validarCpf(atividade.getPalestrante().getCpf())) {
-            return evento.adicionarAtividade(atividade);
+
+        if (verificarConflitosEntreAtividades(evento, atividade)) {
+            return false;
         }
-        return false;
+
+        if (verificarConflitoPalestrante(evento, atividade)) {
+            return false;
+        }
+
+        if (!validarCpf(atividade.getPalestrante().getCpf())) {
+            return false;
+        }
+
+        return evento.adicionarAtividade(atividade);
     }
 
     public boolean realizarInscricao(Evento evento, Participante participante) {
@@ -37,24 +47,37 @@ public class GerenciadorService {
         return false;
     }
 
-    private boolean validarCpf(String cpf) {
-        return cpf.matches("\\d{11}");
+    private boolean verificarConflitosEntreAtividades(Evento evento, Atividade atividade) {
+        for (Atividade atv : evento.getAtividades()) {
+            if (atv != null) {
+                if (atv.getLocal().equals(atividade.getLocal()) && atv.getHorario().equals(atividade.getHorario())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
+
+    private boolean verificarConflitoPalestrante(Evento evento, Atividade novaAtividade) {
+        for (Atividade atv : evento.getAtividades()) {
+            if (atv != null) {
+                if (atv.getPalestrante().getCpf().equals(novaAtividade.getPalestrante().getCpf()) &&
+                        atv.getHorario().equals(novaAtividade.getHorario())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 
     private boolean verificarParticipanteInscrito(Participante participante, Evento evento) {
         Participante encontrado = evento.buscarParticipanteRecursivo(participante.getCpf(), 0);
         return encontrado != null;
     }
 
-    private boolean verificarConflitosEntreAtividades(Evento evento, Atividade atividade) {
-        for (Atividade atv : evento.getAtividades()) {
-            if (atv != null) {
-                if (atv.getLocal().equals(atividade.getLocal()) && atv.getHorario().equals(atividade.getHorario())) {
-                    return true; // Conflito de horário e local detectado
-                }
-            }
-        }
-        return false;
+    private boolean validarCpf(String cpf) {
+        return cpf.matches("\\d{11}");
     }
 
     public Evento[] getEventos() {
