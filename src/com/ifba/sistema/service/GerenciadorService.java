@@ -2,7 +2,6 @@ package com.ifba.sistema.service;
 
 import com.ifba.sistema.model.Atividade;
 import com.ifba.sistema.model.Evento;
-import com.ifba.sistema.model.Palestrante;
 import com.ifba.sistema.model.Participante;
 
 public class GerenciadorService {
@@ -25,17 +24,21 @@ public class GerenciadorService {
 
     public boolean adicionarAtividade(Atividade atividade) {
         Evento evento = atividade.getEvento();
-        if (!verificarConflitosEntreAtividades(evento, atividade)) {
+        if (!verificarConflitosEntreAtividades(evento, atividade) && validarCpf(atividade.getPalestrante().getCpf())) {
             return evento.adicionarAtividade(atividade);
         }
         return false;
     }
 
     public boolean realizarInscricao(Evento evento, Participante participante) {
-        if (!verificarParticipanteInscrito(participante, evento)) {
+        if (!verificarParticipanteInscrito(participante, evento) && validarCpf(participante.getCpf())) {
             return evento.cadastrarParticipante(participante);
         }
         return false;
+    }
+
+    private boolean validarCpf(String cpf) {
+        return cpf.matches("\\d{11}");
     }
 
     private boolean verificarParticipanteInscrito(Participante participante, Evento evento) {

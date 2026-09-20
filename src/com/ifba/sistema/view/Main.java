@@ -185,7 +185,7 @@ public class Main {
         if (service.realizarInscricao(eventoSelecionado, participante)) {
             System.out.println("Participante cadastrado com sucesso!");
         } else {
-            System.out.println("Não foi possível cadastrar (Capacidade máxima atingida ou CPF já cadastrado).");
+            System.out.println("Não foi possível cadastrar novo participante (Capacidade máxima atingida ou CPF já cadastrado ou CPF inválido).");
         }
     }
 
@@ -219,7 +219,7 @@ public class Main {
         if (service.adicionarAtividade(atividade)) {
             System.out.println("Atividade cadastrada com sucesso!");
         } else {
-            System.out.println("Não foi possível cadastrar a atividade (Limite atingido ou conflito de horário e local).");
+            System.out.println("Não foi possível cadastrar a atividade (Limite atingido ou conflito de horário e local ou CPF do palestrante inválido).");
         }
     }
 

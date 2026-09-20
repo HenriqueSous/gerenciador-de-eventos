@@ -36,12 +36,14 @@ public class Evento {
     }
 
     public Participante buscarParticipanteRecursivo(String cpf, int indice) {
-        if (indice >= this.participantes.length || this.participantes[indice] == null) {
+        if (indice >= this.participantes.length || indice >= this.indiceParticipante) {
             return null;
         }
-        if (this.participantes[indice].getCpf().equals(cpf)) {
+
+        if (this.participantes[indice] != null && this.participantes[indice].getCpf().equals(cpf)) {
             return this.participantes[indice];
         }
+
         return buscarParticipanteRecursivo(cpf, indice + 1);
     }
 
