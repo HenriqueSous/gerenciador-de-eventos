@@ -1,21 +1,23 @@
 package com.ifba.sistema.model;
 
-public class Atividade {
+public abstract class Atividade {
     private String nome;
     private String local;
     private String horario;
     private int duracaoMinutos;
-    private Palestrante palestrante;
+    private Ministrante ministrante;
     private Evento evento;
 
-    public Atividade(String nome, String local, String horario, int duracaoMinutos, Palestrante palestrante, Evento evento) {
+    public Atividade(String nome, String local, String horario, int duracaoMinutos, Ministrante ministrante, Evento evento) {
         this.nome = nome;
         this.local = local;
         this.horario = horario;
         this.duracaoMinutos = duracaoMinutos;
-        this.palestrante = palestrante;
+        this.ministrante = ministrante;
         this.evento = evento;
     }
+
+    public abstract void exibirAtividade();
 
     public String getNome() { return nome; }
 
@@ -25,7 +27,7 @@ public class Atividade {
 
     public int getDuracaoMinutos() { return duracaoMinutos; }
 
-    public Palestrante getPalestrante() { return palestrante; }
+    public Ministrante getMinistrante() { return ministrante; }
 
     public Evento getEvento() { return evento; }
 }

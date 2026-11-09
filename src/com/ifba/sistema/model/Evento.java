@@ -52,5 +52,6 @@ public class Evento {
     public int getCapacidadeMaxima() { return capacidadeMaxima; }
 
     public Participante[] getParticipantes() { return participantes; }
+
     public Atividade[] getAtividades() { return atividades; }
 }

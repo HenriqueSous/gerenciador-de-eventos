@@ -1,14 +1,12 @@
 package com.ifba.sistema.model;
 
-public class Palestrante {
+public abstract class Pessoa {
     private String nome;
     private String cpf;
-    private String especialidade;
 
-    public Palestrante(String nome, String cpf, String especialidade) {
+    public Pessoa(String nome, String cpf) {
         this.nome = nome;
         this.cpf = cpf;
-        this.especialidade = especialidade;
     }
 
     public String getNome() {
@@ -17,9 +15,5 @@ public class Palestrante {
 
     public String getCpf() {
         return cpf;
-    }
-
-    public String getEspecialidade() {
-        return especialidade;
     }
 }

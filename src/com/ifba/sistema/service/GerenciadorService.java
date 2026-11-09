@@ -42,7 +42,7 @@ public class GerenciadorService {
             return false;
         }
 
-        if (!validarCpf(atividade.getPalestrante().getCpf())) {
+        if (!validarCpf(atividade.getMinistrante().getCpf())) {
             return false;
         }
 
@@ -63,7 +63,7 @@ public class GerenciadorService {
     private boolean verificarConflitoPalestrante(Evento evento, Atividade novaAtividade) {
         for (Atividade atv : evento.getAtividades()) {
             if (atv != null) {
-                if (atv.getPalestrante().getCpf().equals(novaAtividade.getPalestrante().getCpf()) &&
+                if (atv.getMinistrante().getCpf().equals(novaAtividade.getMinistrante().getCpf()) &&
                         atv.getHorario().equals(novaAtividade.getHorario())) {
                     return true;
                 }

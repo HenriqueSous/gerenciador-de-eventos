@@ -1,9 +1,6 @@
 package com.ifba.sistema.view;
 
-import com.ifba.sistema.model.Atividade;
-import com.ifba.sistema.model.Evento;
-import com.ifba.sistema.model.Palestrante;
-import com.ifba.sistema.model.Participante;
+import com.ifba.sistema.model.*;
 import com.ifba.sistema.service.GerenciadorService;
 
 import java.util.Scanner;
@@ -196,6 +193,22 @@ public class Main {
         }
 
         System.out.println("\n=== CADASTRO DE ATIVIDADE ===");
+        int tipoAtividade;
+        while (true) {
+            System.out.println("Informe o tipo de atividade: ");
+            System.out.println("[0] Palestra");
+            System.out.println("[1] Workshop");
+            System.out.println("[2] Minicurso");
+            System.out.print("Escolha uma opção: ");
+
+            tipoAtividade = scanner.nextInt();
+            scanner.nextLine();
+            if (tipoAtividade >= 0 && tipoAtividade <= 2) {
+                break;
+            }
+            System.out.println("Tipo de atividade inválida!");
+        }
+
         System.out.print("Informe o nome da atividade: ");
         String nome = scanner.nextLine();
         System.out.print("Informe o local da atividade: ");
@@ -205,22 +218,52 @@ public class Main {
         System.out.print("Duração em minutos: ");
         int duracao = Integer.parseInt(scanner.nextLine());
 
-        System.out.println("\n--- DADOS DO PALESTRANTE ---");
-        System.out.print("Informe o nome do palestrante: ");
-        String nomePalestrante = scanner.nextLine();
-        System.out.print("Informe o CPF do palestrante: ");
-        String cpfPalestrante = scanner.nextLine();
-        System.out.print("Especialidade: ");
-        String especialidade = scanner.nextLine();
+        Ministrante ministrante = solicitarDadosMinistrante();
 
-        Palestrante palestrante = new Palestrante(nomePalestrante, cpfPalestrante, especialidade);
-        Atividade atividade = new Atividade(nome, local, horario, duracao, palestrante, eventoSelecionado);
+        Atividade atividade = null;
+        switch (tipoAtividade) {
+            case 0:
+                System.out.print("Informe o tempo de perguntas em minutos: ");
+                int tempoPerguntas = scanner.nextInt();
+                scanner.nextLine();
+
+                atividade = new Palestra(nome, local, horario, duracao, ministrante, eventoSelecionado, tempoPerguntas);
+                break;
+
+            case 1:
+                System.out.print("Informe a ferramente requisitada: ");
+                String requisitoFerramenta = scanner.nextLine();
+
+                atividade = new Workshop(nome, local, horario, duracao, ministrante, eventoSelecionado, requisitoFerramenta);
+                break;
+
+            case 2:
+                System.out.print("O minicurso gera certificado? (S/N): ");
+                String incluicertificadoStr = scanner.nextLine().toUpperCase();
+
+                boolean incluiCertificado = incluicertificadoStr.equals("S");
+
+                atividade = new Minicurso(nome, local, horario, duracao, ministrante, eventoSelecionado, incluiCertificado);
+                break;
+        }
 
         if (service.adicionarAtividade(atividade)) {
             System.out.println("Atividade cadastrada com sucesso!");
         } else {
             System.out.println("Não foi possível cadastrar a atividade (Limite atingido ou conflito de horário e local ou CPF do palestrante inválido).");
         }
+    }
+
+    private static Ministrante solicitarDadosMinistrante() {
+        System.out.println("\n--- DADOS DO MINISTRANTE ---");
+        System.out.print("Informe o nome do Ministrante: ");
+        String nomePalestrante = scanner.nextLine();
+        System.out.print("Informe o CPF do Ministrante: ");
+        String cpfPalestrante = scanner.nextLine();
+        System.out.print("Informe a Especialidade do Ministrante: ");
+        String especialidade = scanner.nextLine();
+
+        return new Ministrante(nomePalestrante, cpfPalestrante, especialidade);
     }
 
     private static void buscarParticipante() {
@@ -263,7 +306,8 @@ public class Main {
                     System.out.println("Nome: " + atividade.getNome());
                     System.out.println("Local: " + atividade.getLocal());
                     System.out.println("Horário: " + atividade.getHorario());
-                    System.out.println("Palestrante: " + atividade.getPalestrante().getNome());
+                    System.out.println("Duração: " + atividade.getDuracaoMinutos());
+                    System.out.println("Palestrante: " + atividade.getMinistrante().getNome());
                 }
             }
         }

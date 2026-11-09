@@ -20,11 +20,11 @@ Automatizar o fluxo de gestão de eventos por meio da modelagem computacional de
 
 •	Cadastro de Participantes: Realiza a inscrição de participantes vinculados ao evento selecionado, validando restrições de capacidade e integridade.
 
-•	Cadastro de Atividades: Permite registrar atividades vinculadas a um evento específico, associando local, horário, duração e os dados do palestrante responsável.
+•	Cadastro de Atividades: Permite registrar atividades vinculadas a um evento específico, associando local, horário, duração e os dados do ministrante responsável.
 
 •	Busca Recursiva de Participantes: Permite localizar um participante inscrito no evento ativo informando o seu CPF, utilizando um algoritmo de busca recursiva sobre o vetor de armazenamento.
 
-•	Listagem de Atividades: Exibe todas as atividades cadastradas no evento ativo, detalhando local, horário e palestrante correspondente.
+•	Listagem de Atividades: Exibe todas as atividades cadastradas no evento ativo, detalhando local, horário e ministrante correspondente.
 
 #### 4. Descrição das classes
 •	Main (Camada View): Classe de interface textual via console (Scanner). Gerencia o fluxo de navegação por menus, captura dados primitivos do usuário, trata exceções de entrada numérica e direciona as operações para a camada de serviço.
@@ -46,7 +46,7 @@ Automatizar o fluxo de gestão de eventos por meio da modelagem computacional de
 
 •	Evento - Atividade: Agregação do tipo "Um para Muitos" (1 para N), onde cada evento mantém um vetor de até 10 atividades associadas.
 
-•	Atividade - Palestrante: Associação do tipo "Muitos para Um" (N para 1), permitindo que um palestrante ministre diversas atividades ao longo do sistema.
+•	Atividade - Palestrante: Associação do tipo "Muitos para Um" (N para 1), permitindo que um ministrante ministre diversas atividades ao longo do sistema.
 
 •	Atividade - Evento: Associação do tipo "Muitos para Um" (N para 1), indicando a qual evento pertence cada atividade cadastrada.
 
@@ -59,7 +59,7 @@ Automatizar o fluxo de gestão de eventos por meio da modelagem computacional de
 
 •	Disponibilidade de Local e Horário: O sistema valida e impede o cadastro de duas atividades diferentes que ocupem simultaneamente o mesmo local e o mesmo horário.
 
-•	Disponibilidade do Palestrante: O sistema impede que um mesmo palestrante seja alocado em duas atividades distintas no mesmo horário.
+•	Disponibilidade do Palestrante: O sistema impede que um mesmo ministrante seja alocado em duas atividades distintas no mesmo horário.
 
 •	Validação de Formato: A integridade dos dados cadastrais é assegurada por validações rígidas de CPF (exatamente 11 dígitos numéricos) e e-mail (presença do caractere @).
 
