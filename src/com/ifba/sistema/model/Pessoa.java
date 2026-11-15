@@ -9,6 +9,8 @@ public abstract class Pessoa {
         this.cpf = cpf;
     }
 
+    public abstract String getDescricao();
+
     public String getNome() {
         return nome;
     }

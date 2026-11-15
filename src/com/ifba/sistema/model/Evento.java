@@ -10,16 +10,16 @@ public class Evento implements Inscrevivel{
 
     public Evento(String nome, int capacidadeMaxima) {
         this.nome = nome;
-        this.capacidadeMaxima = capacidadeMaxima;
-        this.participantes = new Participante[capacidadeMaxima];
+        this.capacidadeMaxima = Math.max(capacidadeMaxima, 0);
+        this.participantes = new Participante[this.capacidadeMaxima];
         this.atividades = new Atividade[10];
         this.indiceAtividade = 0;
         this.indiceParticipante = 0;
     }
 
     public boolean adicionarAtividade(Atividade atividade) {
-        if (indiceAtividade >= this.atividades.length) {
-            return false; // Array de atividades cheio
+        if (atividade == null || indiceAtividade >= this.atividades.length) {
+            return false;
         }
         this.atividades[indiceAtividade] = atividade;
         this.indiceAtividade++;
@@ -28,8 +28,8 @@ public class Evento implements Inscrevivel{
 
     @Override
     public boolean cadastrarParticipante(Participante participante) {
-        if (getVagasDisponiveis() == 0) {
-            return false; // Atingiu a capacidade máxima
+        if (participante == null || getVagasDisponiveis() <= 0 || isParticipanteInscrito(participante)) {
+            return false;
         }
         this.participantes[indiceParticipante] = participante;
         this.indiceParticipante++;
@@ -38,7 +38,10 @@ public class Evento implements Inscrevivel{
 
     @Override
     public boolean isParticipanteInscrito(Participante participante) {
-        return buscarParticipanteRecursivo(participante.getCpf(), 0) == null;
+        if (participante == null) {
+            return false;
+        }
+        return buscarParticipanteRecursivo(participante.getCpf(), 0) != null;
     }
 
     @Override
@@ -50,19 +53,23 @@ public class Evento implements Inscrevivel{
         if (indice >= this.participantes.length || indice >= this.indiceParticipante) {
             return null;
         }
-
         if (this.participantes[indice] != null && this.participantes[indice].getCpf().equals(cpf)) {
             return this.participantes[indice];
         }
-
         return buscarParticipanteRecursivo(cpf, indice + 1);
     }
 
+    public void listarAtividadesRecursivo(int indice) {
+        if (indice >= this.indiceAtividade || this.atividades[indice] == null) {
+            return;
+        }
+        this.atividades[indice].exibirHierarquiaRecursivo(0);
+        listarAtividadesRecursivo(indice + 1);
+    }
+
     public String getNome() { return nome; }
-
     public int getCapacidadeMaxima() { return capacidadeMaxima; }
-
     public Participante[] getParticipantes() { return participantes; }
-
     public Atividade[] getAtividades() { return atividades; }
+    public int getIndiceAtividade() { return indiceAtividade; }
 }

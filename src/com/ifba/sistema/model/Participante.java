@@ -8,6 +8,11 @@ public class Participante extends Pessoa{
         this.email = email;
     }
 
+    @Override
+    public String getDescricao() {
+        return "Participante: " + getNome() + " | CPF: " + getCpf() + " | E-mail: " + email;
+    }
+
     public String getEmail() {
         return email;
     }

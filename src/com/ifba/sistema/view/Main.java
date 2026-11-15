@@ -34,12 +34,18 @@ public class Main {
                     cadastrarParticipante();
                     break;
                 case 4:
-                    cadastrarAtividade();
+                    cadastrarAtividade(false);
                     break;
                 case 5:
-                    buscarParticipante();
+                    cadastrarAtividade(true);
                     break;
                 case 6:
+                    inscreverParticipanteEmAtividade();
+                    break;
+                case 7:
+                    buscarParticipante();
+                    break;
+                case 8:
                     listarAtividades();
                     break;
                 case 0:
@@ -54,16 +60,18 @@ public class Main {
     private static void menu() {
         System.out.println("\n=== MENU PRINCIPAL ===");
         if (eventoSelecionado != null) {
-            System.out.println("[ Evento Selecionado: " + eventoSelecionado.getNome() + " ]");
+            System.out.println("[ Evento Selecionado: " + eventoSelecionado.getNome() + " | Vagas: " + eventoSelecionado.getVagasDisponiveis() + " ]");
         } else {
             System.out.println("[ Nenhum evento selecionado ]");
         }
         System.out.println("[1] Gerenciar Eventos (Cadastrar / Ver)");
         System.out.println("[2] Selecionar/Alternar Evento Ativo");
-        System.out.println("[3] Cadastrar Participante (no evento selecionado)");
-        System.out.println("[4] Cadastrar Atividade (no evento selecionado)");
-        System.out.println("[5] Buscar Participante por CPF");
-        System.out.println("[6] Listar Atividades do Evento Selecionado");
+        System.out.println("[3] Inscrever Participante no Evento");
+        System.out.println("[4] Cadastrar Atividade no Evento");
+        System.out.println("[5] Cadastrar Subatividade (Hierarquia)");
+        System.out.println("[6] Inscrever Participante em uma Atividade");
+        System.out.println("[7] Buscar Participante por CPF");
+        System.out.println("[8] Listar Atividades do Evento (Recursivo)");
         System.out.println("[0] Sair");
     }
 
@@ -126,7 +134,8 @@ public class Main {
             if (eventos[i] != null) {
                 possuiEventos = true;
                 String indicadorAtivo = (eventos[i] == eventoSelecionado) ? " (SELECIONADO)" : "";
-                System.out.println((i + 1) + ". " + eventos[i].getNome() + " [Capacidade: " + eventos[i].getCapacidadeMaxima() + "]" + indicadorAtivo);
+                System.out.println((i + 1) + ". " + eventos[i].getNome()
+                        + " [Vagas: " + eventos[i].getVagasDisponiveis() + "/" + eventos[i].getCapacidadeMaxima() + "]" + indicadorAtivo);
             }
         }
 
@@ -169,10 +178,10 @@ public class Main {
             return;
         }
 
-        System.out.println("\n=== CADASTRO DE PARTICIPANTE ===");
+        System.out.println("\n=== INSCRIÇÃO DE PARTICIPANTE NO EVENTO ===");
         System.out.print("Informe o nome do participante: ");
         String nome = scanner.nextLine();
-        System.out.print("Informe o CPF do participante: ");
+        System.out.print("Informe o CPF do participante (11 dígitos): ");
         String cpf = scanner.nextLine();
         System.out.print("Informe o e-mail do participante: ");
         String email = scanner.nextLine();
@@ -180,19 +189,27 @@ public class Main {
         Participante participante = new Participante(nome, cpf, email);
 
         if (service.realizarInscricao(eventoSelecionado, participante)) {
-            System.out.println("Participante cadastrado com sucesso!");
+            System.out.println("Participante inscrito no evento com sucesso!");
         } else {
-            System.out.println("Não foi possível cadastrar novo participante (Capacidade máxima atingida ou CPF já cadastrado ou CPF inválido).");
+            System.out.println("Não foi possível inscrever (Sem vagas, CPF já cadastrado, CPF inválido ou e-mail sem '@').");
         }
     }
 
-    private static void cadastrarAtividade() {
+    private static void cadastrarAtividade(boolean isSubAtividade) {
         if (eventoSelecionado == null) {
             System.out.println("Selecione ou cadastre um evento primeiro!");
             return;
         }
 
-        System.out.println("\n=== CADASTRO DE ATIVIDADE ===");
+        Atividade atividadePai = null;
+        if (isSubAtividade) {
+            atividadePai = selecionarAtividadeDoEvento();
+            if (atividadePai == null) {
+                return;
+            }
+        }
+
+        System.out.println(isSubAtividade ? "\n=== CADASTRO DE SUBATIVIDADE ===" : "\n=== CADASTRO DE ATIVIDADE ===");
         int tipoAtividade;
         while (true) {
             System.out.println("Informe o tipo de atividade: ");
@@ -201,8 +218,11 @@ public class Main {
             System.out.println("[2] Minicurso");
             System.out.print("Escolha uma opção: ");
 
-            tipoAtividade = scanner.nextInt();
-            scanner.nextLine();
+            try {
+                tipoAtividade = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                tipoAtividade = -1;
+            }
             if (tipoAtividade >= 0 && tipoAtividade <= 2) {
                 break;
             }
@@ -217,6 +237,8 @@ public class Main {
         String horario = scanner.nextLine();
         System.out.print("Duração em minutos: ");
         int duracao = Integer.parseInt(scanner.nextLine());
+        System.out.print("Capacidade máxima de vagas na atividade: ");
+        int capacidadeAtividade = Integer.parseInt(scanner.nextLine());
 
         Ministrante ministrante = solicitarDadosMinistrante();
 
@@ -224,41 +246,84 @@ public class Main {
         switch (tipoAtividade) {
             case 0:
                 System.out.print("Informe o tempo de perguntas em minutos: ");
-                int tempoPerguntas = scanner.nextInt();
-                scanner.nextLine();
-
-                atividade = new Palestra(nome, local, horario, duracao, ministrante, eventoSelecionado, tempoPerguntas);
+                int tempoPerguntas = Integer.parseInt(scanner.nextLine());
+                atividade = new Palestra(nome, local, horario, duracao, ministrante, eventoSelecionado, capacidadeAtividade, tempoPerguntas);
                 break;
-
             case 1:
-                System.out.print("Informe a ferramente requisitada: ");
+                System.out.print("Informe a ferramenta requisitada: ");
                 String requisitoFerramenta = scanner.nextLine();
-
-                atividade = new Workshop(nome, local, horario, duracao, ministrante, eventoSelecionado, requisitoFerramenta);
+                atividade = new Workshop(nome, local, horario, duracao, ministrante, eventoSelecionado, capacidadeAtividade, requisitoFerramenta);
                 break;
-
             case 2:
                 System.out.print("O minicurso gera certificado? (S/N): ");
-                String incluicertificadoStr = scanner.nextLine().toUpperCase();
-
-                boolean incluiCertificado = incluicertificadoStr.equals("S");
-
-                atividade = new Minicurso(nome, local, horario, duracao, ministrante, eventoSelecionado, incluiCertificado);
+                boolean incluiCertificado = scanner.nextLine().trim().equalsIgnoreCase("S");
+                atividade = new Minicurso(nome, local, horario, duracao, ministrante, eventoSelecionado, capacidadeAtividade, incluiCertificado);
                 break;
         }
 
-        if (service.adicionarAtividade(atividade)) {
+        boolean sucesso = isSubAtividade
+                ? service.adicionarSubAtividade(atividadePai, atividade)
+                : service.adicionarAtividade(atividade);
+
+        if (sucesso) {
             System.out.println("Atividade cadastrada com sucesso!");
         } else {
-            System.out.println("Não foi possível cadastrar a atividade (Limite atingido ou conflito de horário e local ou CPF do palestrante inválido).");
+            System.out.println("Não foi possível cadastrar a atividade (Limite atingido, conflito de horário/local ou CPF do ministrante inválido).");
         }
+    }
+
+    private static void inscreverParticipanteEmAtividade() {
+        if (eventoSelecionado == null) {
+            System.out.println("Selecione ou cadastre um evento primeiro!");
+            return;
+        }
+
+        Atividade atividade = selecionarAtividadeDoEvento();
+        if (atividade == null) {
+            return;
+        }
+
+        System.out.print("Informe o CPF do participante já inscrito no evento: ");
+        String cpf = scanner.nextLine();
+
+        if (service.inscreverParticipanteEmAtividade(atividade, cpf)) {
+            System.out.println("Participante inscrito na atividade '" + atividade.getNome() + "' com sucesso!");
+        } else {
+            System.out.println("Falha na inscrição (Participante não inscrito no evento, já inscrito na atividade ou sem vagas).");
+        }
+    }
+
+    private static Atividade selecionarAtividadeDoEvento() {
+        Atividade[] atividades = eventoSelecionado.getAtividades();
+        boolean possui = false;
+
+        System.out.println("\n=== ATIVIDADES DO EVENTO ===");
+        for (int i = 0; i < eventoSelecionado.getIndiceAtividade(); i++) {
+            if (atividades[i] != null) {
+                possui = true;
+                System.out.println("[" + (i + 1) + "] " + atividades[i].getNome() + " (Vagas: " + atividades[i].getVagasDisponiveis() + ")");
+            }
+        }
+
+        if (!possui) {
+            System.out.println("Nenhuma atividade cadastrada neste evento.");
+            return null;
+        }
+
+        System.out.print("Selecione o número da atividade: ");
+        int idx = Integer.parseInt(scanner.nextLine()) - 1;
+        if (idx >= 0 && idx < eventoSelecionado.getIndiceAtividade() && atividades[idx] != null) {
+            return atividades[idx];
+        }
+        System.out.println("Atividade inválida.");
+        return null;
     }
 
     private static Ministrante solicitarDadosMinistrante() {
         System.out.println("\n--- DADOS DO MINISTRANTE ---");
         System.out.print("Informe o nome do Ministrante: ");
         String nomePalestrante = scanner.nextLine();
-        System.out.print("Informe o CPF do Ministrante: ");
+        System.out.print("Informe o CPF do Ministrante (11 dígitos): ");
         String cpfPalestrante = scanner.nextLine();
         System.out.print("Informe a Especialidade do Ministrante: ");
         String especialidade = scanner.nextLine();
@@ -280,9 +345,7 @@ public class Main {
 
         if (p != null) {
             System.out.println("Participante encontrado:");
-            System.out.println("Nome: " + p.getNome());
-            System.out.println("CPF: " + p.getCpf());
-            System.out.println("E-mail: " + p.getEmail());
+            System.out.println(p.getDescricao());
         } else {
             System.out.println("Participante não encontrado.");
         }
@@ -295,25 +358,11 @@ public class Main {
         }
 
         System.out.println("\n=== ATIVIDADES DO EVENTO (" + eventoSelecionado.getNome() + ") ===");
-        Atividade[] atividades = eventoSelecionado.getAtividades();
-        boolean possuiAtividades = false;
-
-        if (atividades != null) {
-            for (Atividade atividade : atividades) {
-                if (atividade != null) {
-                    possuiAtividades = true;
-                    System.out.println("--------------------------------");
-                    System.out.println("Nome: " + atividade.getNome());
-                    System.out.println("Local: " + atividade.getLocal());
-                    System.out.println("Horário: " + atividade.getHorario());
-                    System.out.println("Duração: " + atividade.getDuracaoMinutos());
-                    System.out.println("Palestrante: " + atividade.getMinistrante().getNome());
-                }
-            }
-        }
-
-        if (!possuiAtividades) {
+        if (eventoSelecionado.getIndiceAtividade() == 0) {
             System.out.println("Nenhuma atividade cadastrada.");
+            return;
         }
+
+        eventoSelecionado.listarAtividadesRecursivo(0);
     }
 }

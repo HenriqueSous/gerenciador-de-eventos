@@ -8,6 +8,11 @@ public class Ministrante extends Pessoa{
         this.especialidade = especialidade;
     }
 
+    @Override
+    public String getDescricao() {
+        return "Ministrante: " + getNome() + " | CPF: " + getCpf() + " | Especialidade: " + especialidade;
+    }
+
     public String getEspecialidade() {
         return especialidade;
     }
