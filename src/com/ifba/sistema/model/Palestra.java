@@ -15,4 +15,15 @@ public class Palestra extends Atividade{
     public int getTempoPerguntas() {
         return tempoPerguntas;
     }
+
+    @Override
+    public void exibirAtividade() {
+    System.out.println("Tipo: Palestra");
+    System.out.println("Nome: " + getNome());
+    System.out.println("Local: " + getLocal());
+    System.out.println("Horário: " + getHorario());
+    System.out.println("Duração: " + getDuracaoMinutos() + " min");
+    System.out.println("Ministrante: " + getMinistrante().getNome());
+    System.out.println("Tempo de perguntas: " + tempoPerguntas + " min");
+    }
 }

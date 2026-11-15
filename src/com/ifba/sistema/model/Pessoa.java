@@ -16,4 +16,6 @@ public abstract class Pessoa {
     public String getCpf() {
         return cpf;
     }
+
+    public abstract String getDescricao();
 }

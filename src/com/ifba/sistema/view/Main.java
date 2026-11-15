@@ -279,11 +279,12 @@ public class Main {
         Participante p = eventoSelecionado.buscarParticipanteRecursivo(cpf, 0);
 
         if (p != null) {
+            Pessoa pessoa = p;
             System.out.println("Participante encontrado:");
-            System.out.println("Nome: " + p.getNome());
-            System.out.println("CPF: " + p.getCpf());
-            System.out.println("E-mail: " + p.getEmail());
-        } else {
+            System.out.println(pessoa.getDescricao());  
+            System.out.println("CPF: " + pessoa.getCpf());
+        }
+        else {
             System.out.println("Participante não encontrado.");
         }
     }
@@ -303,11 +304,7 @@ public class Main {
                 if (atividade != null) {
                     possuiAtividades = true;
                     System.out.println("--------------------------------");
-                    System.out.println("Nome: " + atividade.getNome());
-                    System.out.println("Local: " + atividade.getLocal());
-                    System.out.println("Horário: " + atividade.getHorario());
-                    System.out.println("Duração: " + atividade.getDuracaoMinutos());
-                    System.out.println("Palestrante: " + atividade.getMinistrante().getNome());
+                    atividade.exibirAtividade();   
                 }
             }
         }

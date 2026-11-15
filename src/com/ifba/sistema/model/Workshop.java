@@ -15,4 +15,15 @@ public class Workshop extends Atividade{
     public String getRequisitosFerramenta() {
         return requisitosFerramenta;
     }
+
+    @Override
+    public void exibirAtividade() {
+    System.out.println("Tipo: Workshop");
+    System.out.println("Nome: " + getNome());
+    System.out.println("Local: " + getLocal());
+    System.out.println("Horário: " + getHorario());
+    System.out.println("Duração: " + getDuracaoMinutos() + " min");
+    System.out.println("Ministrante: " + getMinistrante().getNome());
+    System.out.println("Ferramenta requisitada: " + requisitosFerramenta);
+    }
 }

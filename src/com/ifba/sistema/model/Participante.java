@@ -11,4 +11,9 @@ public class Participante extends Pessoa{
     public String getEmail() {
         return email;
     }
+
+    @Override
+    public String getDescricao() {
+    return "Participante: " + getNome() + " (" + email + ")";
+    }
 }

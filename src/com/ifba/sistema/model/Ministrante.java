@@ -11,4 +11,9 @@ public class Ministrante extends Pessoa{
     public String getEspecialidade() {
         return especialidade;
     }
+
+    @Override
+    public String getDescricao() {
+    return "Ministrante: " + getNome() + " (Especialidade: " + especialidade + ")";
+    }
 }
