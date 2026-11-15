@@ -23,9 +23,9 @@ public class GerenciadorService {
     }
 
     public boolean realizarInscricao(Evento evento, Participante participante) {
-        if (!verificarParticipanteInscrito(participante, evento)
+        if (evento.isParticipanteInscrito(participante)
                 && validarCpf(participante.getCpf()) &&
-                !validarEmail(participante.getEmail())) {
+                validarEmail(participante.getEmail())) {
             return evento.cadastrarParticipante(participante);
         }
         return false;
@@ -70,11 +70,6 @@ public class GerenciadorService {
             }
         }
         return false;
-    }
-
-    private boolean verificarParticipanteInscrito(Participante participante, Evento evento) {
-        Participante encontrado = evento.buscarParticipanteRecursivo(participante.getCpf(), 0);
-        return encontrado != null;
     }
 
     private boolean validarCpf(String cpf) {

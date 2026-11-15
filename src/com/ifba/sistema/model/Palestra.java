@@ -3,8 +3,8 @@ package com.ifba.sistema.model;
 public class Palestra extends Atividade{
     private int tempoPerguntas;
 
-    public Palestra(String nome, String local, String horario, int duracaoMinutos, Ministrante ministrante, Evento evento, int tempoPerguntas) {
-        super(nome, local, horario, duracaoMinutos, ministrante, evento);
+    public Palestra(String nome, String local, String horario, int duracaoMinutos, Ministrante ministrante, Evento evento, int capacidadeMaxima, int tempoPerguntas) {
+        super(nome, local, horario, duracaoMinutos, ministrante, evento, capacidadeMaxima);
         this.tempoPerguntas = tempoPerguntas;
     }
 

@@ -1,6 +1,6 @@
 package com.ifba.sistema.model;
 
-public class Evento {
+public class Evento implements Inscrevivel{
     private String nome;
     private int capacidadeMaxima;
     private Participante[] participantes;
@@ -26,13 +26,24 @@ public class Evento {
         return true;
     }
 
+    @Override
     public boolean cadastrarParticipante(Participante participante) {
-        if (indiceParticipante >= this.capacidadeMaxima) {
+        if (getVagasDisponiveis() == 0) {
             return false; // Atingiu a capacidade máxima
         }
         this.participantes[indiceParticipante] = participante;
         this.indiceParticipante++;
         return true;
+    }
+
+    @Override
+    public boolean isParticipanteInscrito(Participante participante) {
+        return buscarParticipanteRecursivo(participante.getCpf(), 0) == null;
+    }
+
+    @Override
+    public int getVagasDisponiveis() {
+        return this.capacidadeMaxima - this.indiceParticipante;
     }
 
     public Participante buscarParticipanteRecursivo(String cpf, int indice) {
